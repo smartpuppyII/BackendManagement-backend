@@ -1,0 +1,23 @@
+# 文件结构
+
+├─node_modules
+├─public
+└─src
+    ├─config    # 配置
+    ├─controller    # 处理逻辑，调用services
+    ├─models    # 数据库模型
+    ├─routes    # 路由模块
+    └─services # 实时sql语句
+
+
+# 接口
+## 用户相关 /user
+登录/login  username, password POST (no token)
+注册/register username, password POST (no token)
+更新/update id, newData POST
+获取/userInfo id GET
+
+## 产品相关 /product
+添加/add name, logo
+删除/delete id
+修改/update id newData
