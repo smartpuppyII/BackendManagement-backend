@@ -36,12 +36,13 @@ exports.getUser = (userId) => {
 exports.addUser = (userInfo) => {
     return new Promise((resolve, reject) => {
         const sqlstr = 'INSERT INTO users SET ?'
-        db.query(sqlstr, userInfo, (err, result) => {
+        const insertData = { ...userInfo, id: ''}
+        db.query(sqlstr, insertData, (err, result) => {
             if (err){
                 reject(err.message)
             }
             // 返回插入的结果，可以获取到插入的 ID 等信息
-            if (result.affectedRows === 1){
+            if (result && result.affectedRows === 1){
                 resolve(result)
             }else {
                 reject('insert failed')// 就是另一边收到的err
@@ -57,11 +58,11 @@ exports.updateUser = (userInfo) => {
         delete updateData.id // 防止id被修改
 
         const sqlstr = 'UPDATE users SET ? WHERE id = ?'
-        db.query(sqlstr, [userInfo, userInfo.id], (err, result) => {
+        db.query(sqlstr, [updateData, userInfo.id], (err, result) => {
             if (err){
                 reject(err.message)
             }
-            if (result.affectedRows === 1){
+            if (result && result.affectedRows === 1){
                 resolve(result)
             }else {
                 reject('update failed')

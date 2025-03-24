@@ -13,6 +13,6 @@ userRoute.post('/login', userController.login)
 userRoute.get('/userInfo', userController.getInfo)
 
 // 更新用户信息
-userRoute.post('/update', userController.updateInfo)
+userRoute.post('/updateInfo', userController.updateInfo)
 
 module.exports = userRoute

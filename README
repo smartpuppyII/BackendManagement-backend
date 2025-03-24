@@ -10,7 +10,10 @@
     └─services # 实时sql语句
 
 
+# 调用关系  route -> cotroller -> service
+
 # 接口
+token里除了头像和密码都存了
 ## 用户相关 /user
 登录/login  username, password POST (no token)
 注册/register username, password POST (no token)
@@ -18,6 +21,8 @@
 获取/userInfo id GET
 
 ## 产品相关 /product
-添加/add name, logo
-删除/delete id
-修改/update id newData
+添加/addInfo name, logo POST
+删除/deleteInfo id  POST
+修改/updateInfo id,  POST
+获取/brandInfo id GET
+    /allInfo GET 返回所有品牌以及品牌总数

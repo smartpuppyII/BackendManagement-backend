@@ -1,8 +1,9 @@
+// 表单验证
 const zod = require('zod')
 
-// 表单验证
-const validImageForm = ['png', 'jpg', 'jpeg', 'webp', 'gif']
-const validate = zod.object({
+// 用户信息验证
+const validImageForm = ['png', 'jpg', 'jpeg', 'svg', 'webp', 'gif']
+exports.userValidate = zod.object({
     username: zod.string().trim()
         .min(1, 'Username must be at least 1 characters')
         .max(15, 'Username must be at most 15 characters'),
@@ -18,4 +19,15 @@ const validate = zod.object({
         .optional()
 })
 
-module.exports = validate
+// 品牌信息验证
+exports.brandValidate = zod.object({
+    name: zod.string().trim()
+        .min(1, 'brandname must be at least 1 characters')
+        .max(15, 'brandname must be at most 15 characters'),
+    logo: zod.string().refine((url) => {
+        return url.startsWith('https://')
+    }, 
+    'Avatar must be a valid image URL begin with \'https\'')
+})
+
+// 产品信息验证

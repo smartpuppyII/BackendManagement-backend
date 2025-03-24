@@ -9,7 +9,7 @@ exports.register = async(req, res) => {
 
     // 表单校验 trim防空格 验证失败会抛出错误
     try {
-        validate.parse(userInfo)
+        validate.userValidate.parse(userInfo)
     } catch (error) {
         return res.err(422, 'username or password is invalid!')
     }
@@ -34,7 +34,7 @@ exports.register = async(req, res) => {
             }
         }
     } catch (err) {
-        return res.err(500, 'Error checking username: ' + err)
+        return res.err(500, 'Error checking username : ' + err)
     }
 }
 
@@ -42,9 +42,9 @@ exports.login = async(req, res) => {
     const userInfo = req.body;
     // 表单验证
     try {
-        validate.parse(userInfo)
+        validate.userValidate.parse(userInfo)
     } catch (error) {
-        return res.err(422, error.message)
+        return res.err(422, 'username or password is invalid!')
     }
 
     // 比对密码
@@ -66,21 +66,20 @@ exports.login = async(req, res) => {
                     return res.err(400, 'password is wrong')
                 }
             } catch (error) {
-                return res.err(500, 'Password verification failed ' + error.message)
+                return res.err(500, 'Password verification failed : ' + error.message)
             }
         }else {
             return res.err(404, 'user dont\'t exist')
         }
     } catch (err) {
-        return res.err(500, 'Error find username: ' + err)
+        return res.err(500, 'Error find username : ' + err)
     }
 }
 
 exports.getInfo = async(req, res) => {
-    const userId = req.query.id
-    if (!userId){
-        res.err(400, 'userId needed')
-    }
+    // 从token里获取信息
+    const userId = req.auth.id
+    
     try {
         const userInfo = await userService.getUser(userId)
 
@@ -94,27 +93,23 @@ exports.getInfo = async(req, res) => {
             return res.err(404, 'user dont\'t exist')
         }
     } catch (error) {
-        return res.err(500, 'Error find username: ' + error)
+        return res.err(500, 'Error find username : ' + error)
     }
 }
 
 exports.updateInfo = async(req, res) => {
     const userInfo = req.body
 
-    if (!userInfo.id){
-        res.err(400, 'please send userId')
-    }
-
     // 表单验证
     try {
-        validate.parse(userInfo)
+        validate.userValidate.parse(userInfo)
     } catch (error) {
         return res.err(422, error.message)
     }
 
     // 检查用户存在
     try {
-        const user = await userService.getUser(userInfo.id)
+        const user = await userService.getUser(req.auth.id)
         if (!user){
             return res.err(404, 'user not find')
         }
@@ -122,7 +117,7 @@ exports.updateInfo = async(req, res) => {
         const hashedPassword = await argon2.hash(user.password);
         userInfo.password = hashedPassword
     } catch (error) {
-        return res.err(500, 'Error find user' + error)
+        return res.err(500, 'Error find user : ' + error)
     }
     
     try {
@@ -137,6 +132,6 @@ exports.updateInfo = async(req, res) => {
             return res.err(404, 'user not exist')
         }
     } catch (error) {
-        return res.err(500, 'Error update userInfo: ' + error)
+        return res.err(500, 'Error update userInfo : ' + error)
     }
 }
