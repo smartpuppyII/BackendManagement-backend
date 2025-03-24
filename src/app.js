@@ -5,7 +5,6 @@ const errorHandler = require('./middlewave/error').errorMiddle
 const { expressjwt } = require('express-jwt')// 解析token
 const config = require('./config')// 全局配置对象
 const noTokenRoutes = require('./config/routes')
-console.log(noTokenRoutes);
 
 app.use(errorHandler)// 配置错误消息处理
 app.use(cors())// 配置跨域

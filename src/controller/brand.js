@@ -2,7 +2,6 @@ const brandService = require('../services/brandService')// 导入品牌数据库
 const validate = require('../middlewave/validate')
 
 exports.allInfo = async(req, res) => {
-    // 添加
     try {
         const { total, brands } = await brandService.allbrand()
         console.log(total, brands)
@@ -32,6 +31,11 @@ exports.addInfo = async(req, res) => {
     // 添加
     try {
         await brandService.addbrand(brandInfo)
+        res.send({
+            status: 200,
+            message: 'add brand success',
+            data: brandInfo
+        })
     } catch (error) {
         return res.err(500, 'Insert brand fail : ' + error)
     }
@@ -53,21 +57,18 @@ exports.updateInfo = async(req, res) => {
 
     // 靠id修改
     try {
-        const result = await brandService.updatebrand(brandInfo)
-        if (result.affectedRows === 1){
-            res.send({
-                status: 200,
-                message: 'update brandInfo success',
-                data: brandInfo
-            })
-        }else {
-            return res.err(404, 'brand not exist')
-        }
+        await brandService.updatebrand(brandInfo)
+        res.send({
+            status: 200,
+            message: 'update brandInfo success',
+            data: brandInfo
+        })
     } catch (err) {
         return res.err(500, 'Error find brandname : ' + err)
     }
 }
 
+// TODO: 不要返回status
 exports.getInfo = async(req, res) => {
     const brandId = req.body.id
 
@@ -76,17 +77,12 @@ exports.getInfo = async(req, res) => {
     }
 
     try {
-        const brandInfo = await brandService.getbrand(brandId)
-
-        if (brandInfo){
-            res.send({
-                status: 200,
-                message: 'get brandInfo success',
-                data: brandInfo
-            })
-        }else {
-            return res.err(404, 'brand dont\'t exist')
-        }
+        await brandService.getbrand(brandId)
+        res.send({
+            status: 200,
+            message: 'get brandInfo success',
+            data: brandInfo
+        })
     } catch (error) {
         return res.err(500, 'Error find brandname : ' + error)
     }
@@ -106,16 +102,12 @@ exports.deleteInfo = async(req, res) => {
 
         if (brandInfo){
             try {
-                const result = await brandService.deletebrand(brandId)
-
-                if (result){
-                    res.send({
-                        status: 200,
-                        message: 'delete brand success'
-                    })
-                }else {
-                    return res.err(500, 'delete failed')
-                }
+                await brandService.deletebrand(brandId)
+                res.send({
+                    status: 200,
+                    message: 'delete brand success',
+                    data: brandId
+                })
             } catch (error) {
                 return res.err(500, 'Error delete brand : ' + error)
             }

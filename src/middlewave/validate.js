@@ -1,8 +1,10 @@
 // 表单验证
 const zod = require('zod')
 
-// 用户信息验证
+// 合法图片格式
 const validImageForm = ['png', 'jpg', 'jpeg', 'svg', 'webp', 'gif']
+
+// 用户信息验证
 exports.userValidate = zod.object({
     username: zod.string().trim()
         .min(1, 'Username must be at least 1 characters')
@@ -10,6 +12,7 @@ exports.userValidate = zod.object({
     password: zod.string().trim()
         .min(2, 'Password must be at least 2 characters')
         .max(20, 'Password must be at most 20 characters'),
+    check: zod.string().optional(),
     avatar: zod.string()
         .startsWith('https://')
         .refine((url) => {

@@ -40,11 +40,12 @@ exports.register = async(req, res) => {
 
 exports.login = async(req, res) => {
     const userInfo = req.body;
+    console.log(userInfo);
     // 表单验证
     try {
         validate.userValidate.parse(userInfo)
     } catch (error) {
-        return res.err(422, 'username or password is invalid!')
+        return res.err(422, 'username or password is invalid! : ' + error)
     }
 
     // 比对密码
