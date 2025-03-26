@@ -16,5 +16,7 @@ app.use(require('./middlewave/auth'))// token相关错误信息
 app.use('/user', require('./routes/user'))// 配置用户路由
 app.use('/brand',require('./routes/brand'))// 配置品牌路由
 app.use('/image',require('./routes/image'))// 配置图片显示路由
+app.use('/ranks',require('./routes/category'))// 配置分类路由
+app.use('/attrs',require('./routes/attributes'))// 配置属性标签路由
 
 module.exports = app

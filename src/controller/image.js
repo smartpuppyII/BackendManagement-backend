@@ -40,10 +40,7 @@ exports.getImage = async(req, res) => {
         console.log('path '+ path);
         
         if (!fs.existsSync(path)){
-            return res.err({
-                status: 500,
-                message: 'file damaged'
-            })
+            return res.err(500,'file damaged')
         }
         try {
             const imageData = fs.readFileSync(path)
@@ -57,15 +54,9 @@ exports.getImage = async(req, res) => {
                 }
             })
         } catch (error) {
-            return res.err({
-                status: 500,
-                message: 'read file failed : ' + error
-            })
+            return res.err(500,'read file failed : ' + error)
         }
     } catch (error) {
-        return res.err({
-            status: 404,
-            message: 'no such file uploaded : ' + error
-        })
+        return res.err(404,'no such file uploaded : ' + error)
     }
 }
