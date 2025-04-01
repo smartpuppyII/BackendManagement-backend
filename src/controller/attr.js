@@ -38,25 +38,54 @@ exports.getTags = async(req, res) => {
     }
 }
 
+// TODO: 修改单个属性 删除、更新……
+exports.editTag = (req, res) => {
+
+}
+
 exports.editTags = async(req, res) => {
-    const newAttr = req.body
-    const { rank_id, attr_id } = newAttr// 新增属性或修改现有属性的依据
+    const newInfo = req.body
+    console.log('new attr : ', newInfo);
+    const { rank_id, attr_id, tags } = newInfo// 新增属性或修改现有属性的依据
 
     try {
         if (attr_id){// 自己的id存在，修改现有属性
-            await attrService.updateAttr(newAttr)
+            await attrService.updateAttr(newInfo)
+            // TODO: 修改标签
         }else if (rank_id) {// 自己的id不存在，新增属性
-            await attrService.addAttr(newAttr)
+            const result = await attrService.addAttr(newInfo)// TODO: 返回新增后的attr_id, 便于插入标签
+            await Promise.all(tags.map(async (tag) => {
+                await attrService.addTag(result.insertId,  tag);
+            }))
         }else {
             return res.err( 400, 'rank_id or attr_id is must for editing')
         }
-
         res.send({
             status: 200,
             message: 'edit attr success',
-            data: newAttr
+            data: newInfo
         })
     } catch (error) {
         return res.err( 500, 'editAttrs failed : ' + error)
+    }
+}
+
+exports.deleteAttr = async(req, res) => {
+    const { attrId } = req.body
+    console.log('delete attr id : ', attrId);
+    if (!attrId){
+        return res.err(400, 'attrId is must for delete')
+    }
+
+    try {
+        await attrService.deleteTag(attrId)// 先删除相应标签
+        await attrService.deleteAttr(attrId)
+        res.send({
+            status: 200,
+            message: 'delete attr success',
+            data: attrId
+        })
+    } catch (error) {
+        return res.err( 500, 'delete attr failed : ' + error)
     }
 }

@@ -30,6 +30,64 @@ exports.updateAttr = (newAttr) => {
     })
 }
 
+exports.deleteAttr = (attrId) => {
+    return new Promise((resolve, reject) => {
+        const sqlstr = 'DELETE FROM attributes WHERE attr_id = ?'
+        db.query(sqlstr, attrId, (err, result) => {
+            if (err) {
+                return reject(err.message)
+            }
+            if (result && result.affectedRows == 1){
+                resolve(result)
+            }else {
+                return reject('delete new attr fail')
+            }
+        })
+    })
+}
+
+exports.updateTag = (tag) => {
+    return new Promise((resolve, reject) => {
+        const { tag_id : tagId, tag_name : tagName } = tag
+        const sqlstr = 'UPDATE tags SET tag_name = ? WHERE tag_id = ?'
+        db.query(sqlstr, [tagName, tagId], (err, result) => {
+            if (err) {
+                return reject(err.message)
+            }
+            if (result && result.affectedRows == 1){
+                resolve(result)
+            }else {
+                reject('update tag failed!')
+            }
+        })
+    })
+}
+
+exports.addTag = (attrId, tag) => {
+    return new Promise((resolve, reject) => {
+        const { tag_name : tagName } = tag
+        const sqlstr = 'INSERT INTO tags VALUES ( ?, ?, ?)'
+        db.query(sqlstr, [null, attrId, tagName], (err, result) => {
+            if (err) {
+                return reject(err.message)
+            }
+            resolve(result)
+        })
+    })
+}
+
+exports.deleteTag = (attrId) => {
+    return new Promise((resolve, reject) => {
+        const sqlstr = 'DELETE FROM tags WHERE attr_id = ?'
+        db.query(sqlstr, attrId, (err, result) => {
+            if (err) {
+                return reject(err.message)
+            }
+            resolve(result)
+        })
+    })
+}
+
 exports.addAttr = (newAttr) => {
     // 新增属性
     return new Promise((resolve, reject) => {
@@ -40,7 +98,7 @@ exports.addAttr = (newAttr) => {
                 return reject(err.message)
             }
             if (result && result.affectedRows == 1){
-                console.log(result);
+                // 查找会返回新的id
                 resolve(result)
             }else {
                 return reject('insert new attr fail')

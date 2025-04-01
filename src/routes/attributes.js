@@ -6,4 +6,6 @@ attrRoute.get('/getTags', attrController.getTags)
 
 attrRoute.post('/editTags', attrController.editTags)
 
+attrRoute.post('/deleteAttr', attrController.deleteAttr)
+
 module.exports = attrRoute
