@@ -16,7 +16,7 @@ exports.getAllPermissions = () => {
 // 获取角色权限
 exports.getPermission = (roleId) => {
     return new Promise((resolve, reject) => {
-        const sqlstr = 'SELECT * FROM permission where id = ?'
+        const sqlstr = 'SELECT * FROM permissions where id = ?'
         db.query(sqlstr, roleId, (err, result) => {
             if (err){
                 return reject(err)

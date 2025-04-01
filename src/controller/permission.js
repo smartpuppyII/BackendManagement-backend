@@ -35,7 +35,7 @@ exports.getPermission = async(req, res) => {
     }
 }
 
-// 更新某个职位的id
+// 更新某个职位的权限
 exports.updatePermission = async(req, res) => {
     const { roleId } = req.body
     if (!roleId){
