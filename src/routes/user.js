@@ -15,4 +15,7 @@ userRoute.get('/userInfo', userController.getInfo)
 // 更新用户信息
 userRoute.post('/updateInfo', userController.updateInfo)
 
+// 删除用户信息
+userRoute.post('/deleteInfo', userController.deleteInfos)
+
 module.exports = userRoute

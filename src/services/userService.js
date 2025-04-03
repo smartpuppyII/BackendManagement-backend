@@ -82,3 +82,16 @@ exports.updateUser = (userInfo) => {
         })
     })
 }
+
+// 删除用户，可以优化为逻辑删除
+exports.deleteUser = (userId) => {
+    return new Promise((resolve, reject) => {
+        const sqlstr = 'DELETE FROM users WHERE id = ?'
+        db.query(sqlstr, userId, (err, result) => {
+            if (err){
+                reject(err.message)
+            }
+            resolve(result)
+        })
+    })
+}

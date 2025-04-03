@@ -101,6 +101,23 @@ exports.getInfo = async(req, res) => {
     }
 }
 
+exports.deleteInfos= async(req, res) => {
+    const userIds = req.body
+
+    try {
+        await Promise.all(userIds.map(async (userId) => {
+            await userService.deleteUser(userId);
+        }))
+        res.send({
+            status: 200,
+            message: 'delete userInfo success',
+            data: userIds
+        })
+    } catch (error) {
+        return res.err(500, 'Error delete userInfo : ' + error)
+    }
+}
+
 exports.updateInfo = async(req, res) => {
     const userInfo = req.body
 
