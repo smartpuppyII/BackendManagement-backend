@@ -6,7 +6,7 @@ const config = require('../config/index')
 
 exports.register = async(req, res) => {
     const userInfo = req.body
-
+    console.log(userInfo);
     // 表单校验 trim防空格 验证失败会抛出错误
     try {
         validate.userValidate.parse(userInfo)

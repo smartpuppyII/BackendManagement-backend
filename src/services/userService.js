@@ -5,13 +5,9 @@ exports.usernameExist = (username) => {
         const sqlstr = 'SELECT * FROM users WHERE username = ?';
         db.query(sqlstr, username, (err, result) => {
             if (err) {
-                reject(err.message);
+                reject(err.message)
             }
-            if (result && result.length !== 0) {
-                resolve(result[0]);
-            } else {
-                reject('user not exist');
-            }
+            resolve(result[0])
         })
     })
 }
@@ -52,7 +48,7 @@ exports.getUserRoutes = (roleName) => {
 exports.addUser = (userInfo) => {
     return new Promise((resolve, reject) => {
         const sqlstr = 'INSERT INTO users SET ?'
-        const insertData = { ...userInfo, id: ''}
+        const insertData = { ...userInfo, id: null}
         db.query(sqlstr, insertData, (err, result) => {
             if (err){
                 reject(err.message)
