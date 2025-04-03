@@ -85,16 +85,19 @@ exports.getInfo = async(req, res) => {
         const userInfo = await userService.getUser(userId)
 
         if (userInfo){
+            const userRoutes = await userService.getUserRoutes(userInfo.role)
+            const routes = userRoutes.routes.split(",")
+
             res.send({
                 status: 200,
                 message: 'get userInfo success',
-                data: { ...userInfo, password: '' }// 不要包含密码
+                data: { ...userInfo, password: '', routes }// 不要包含密码
             })
         }else {
             return res.err(404, 'user dont\'t exist')
         }
     } catch (error) {
-        return res.err(500, 'Error find username : ' + error)
+        return res.err(500, 'Error get userInfo : ' + error)
     }
 }
 

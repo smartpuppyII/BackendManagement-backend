@@ -7,7 +7,7 @@ exports.usernameExist = (username) => {
             if (err) {
                 reject(err.message);
             }
-            if (result.length !== 0) {
+            if (result && result.length !== 0) {
                 resolve(result[0]);
             } else {
                 reject('user not exist');
@@ -23,7 +23,23 @@ exports.getUser = (userId) => {
             if (err) {
                 reject(err.message);
             }
-            if (result.length !== 0) {
+            if (result && result.length !== 0) {
+                resolve(result[0]);
+            } else {
+                resolve(false);
+            }
+        })
+    })
+}
+
+exports.getUserRoutes = (roleName) => {
+    return new Promise((resolve, reject) => {
+        const sqlstr = 'SELECT routes FROM roles LEFT JOIN routes ON roles.role_id = routes.role_id  WHERE roles.role_name = ?';
+        db.query(sqlstr, roleName, (err, result) => {
+            if (err) {
+                reject('get userRoutes error : ' + err.message);
+            }
+            if (result) {
                 resolve(result[0]);
             } else {
                 resolve(false);

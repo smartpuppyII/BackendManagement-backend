@@ -10,7 +10,7 @@
     └─services # 实时sql语句
 
 
-# 调用关系  route -> cotroller -> service
+# 调用关系 app -> route -> cotroller -> service -> cotroller -> 前端口
 
 # 接口
 token里除了头像和密码都存了

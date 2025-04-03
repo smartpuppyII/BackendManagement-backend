@@ -16,6 +16,7 @@ exports.getAllPermissions = async(req, res) => {
 }
 
 exports.getPermission = async(req, res) => {
+    console.log(req.body, req.query);
     const { roleId } = req.query
 
     try {
