@@ -77,6 +77,19 @@ exports.login = async(req, res) => {
     }
 }
 
+exports.allInfo = async(req, res) => {
+    try {
+        const userInfos = await userService.allUsers()
+        res.send({
+            status: 200,
+            message: 'get all userInfos success',
+            data: userInfos
+        })
+    } catch (error) {
+        return res.err(500, 'Error get all userInfo : ' + error)
+    }
+}
+
 exports.getInfo = async(req, res) => {
     // 从token里获取信息
     const userId = req.auth.id

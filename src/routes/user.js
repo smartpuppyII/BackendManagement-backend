@@ -12,6 +12,9 @@ userRoute.post('/login', userController.login)
 // 获取用户信息
 userRoute.get('/userInfo', userController.getInfo)
 
+// 获取所有用户信息
+userRoute.get('/allUsers', userController.allInfo)
+
 // 更新用户信息
 userRoute.post('/updateInfo', userController.updateInfo)
 

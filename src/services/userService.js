@@ -12,6 +12,18 @@ exports.usernameExist = (username) => {
     })
 }
 
+exports.allUsers = () => {
+    return new Promise((resolve, reject) => {
+        const sqlstr = 'SELECT * FROM users'
+        db.query(sqlstr, (err, result) => {
+            if (err) {
+                reject(err.message)
+            }
+            resolve(result)
+        })
+    })
+}
+
 exports.getUser = (userId) => {
     return new Promise((resolve, reject) => {
         const sqlstr = 'SELECT * FROM users WHERE id = ?';
