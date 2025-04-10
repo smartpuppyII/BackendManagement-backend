@@ -1,10 +1,10 @@
 const mysql = require('mysql2')
 const db = mysql.createPool({// 连接数据库
-    host: 'localhost',
-    port: 8000,
-    user: 'root',
-    password: 'qwertY#13135352106',
-    database: 'tourism_db'
+    host: '8.138.213.130',
+    port: 3306,
+    user: 'management_db',
+    password: 'me5SxseexNizP3xf',
+    database: 'management_db'
 })
 
 db.query('SELECT 1', (err, result) => {
@@ -12,7 +12,7 @@ db.query('SELECT 1', (err, result) => {
         console.log(err.message)
         return
     }
-    console.log('tourism_db connecting...')
+    console.log('management_db connecting...')
 })
 
 module.exports = db
