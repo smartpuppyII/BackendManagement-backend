@@ -46,12 +46,18 @@ exports.editTag = (req, res) => {
 exports.editTags = async(req, res) => {
     const newInfo = req.body
     console.log('new attr : ', newInfo);
-    const { rank_id, attr_id, tags } = newInfo// 新增属性或修改现有属性的依据
+    const { rank_id, attr_id, tag_name, tag_id } = newInfo// 新增属性或修改现有属性的依据
 
+    console.log(rank_id, attr_id, tag_name, tag_id);
     try {
         if (attr_id){// 自己的id存在，修改现有属性
-            await attrService.updateAttr(newInfo)
+            // await attrService.updateAttr(newInfo)
             // TODO: 修改标签
+            if (tag_id){
+                await attrService.updateTag(tag_id, tag_name);
+            }else {
+                await attrService.addTag(tag_id ,attr_id, tag_name);
+            }
         }else if (rank_id) {// 自己的id不存在，新增属性
             const result = await attrService.addAttr(newInfo)// TODO: 返回新增后的attr_id, 便于插入标签
             await Promise.all(tags.map(async (tag) => {
@@ -71,6 +77,7 @@ exports.editTags = async(req, res) => {
 }
 
 exports.deleteAttr = async(req, res) => {
+    console.log(req.body);
     const { attrId } = req.body
     console.log('delete attr id : ', attrId);
     if (!attrId){

@@ -15,8 +15,9 @@ exports.getAttrs = (rankId) => {
 exports.updateAttr = (newAttr) => {
     // 更新属性名 更新tag 甚至是所属分类
     return new Promise((resolve, reject) => {
-        const { attr_id : attrId, rank_id : rankId, attr_name : attrName } = newAttr
-        const sqlstr = 'UPDATE attributes SET attr_name = ?, rank_id = ? WHERE attr_id = ?'
+        // 后续再支持改名吧
+        const { attr_id : attrId, rank_id : rankId  } = newAttr
+        const sqlstr = 'UPDATE attributes SET rank_id = ? WHERE attr_id = ?'
         db.query(sqlstr, [attrName, rankId, attrId], (err, result) => {
             if (err) {
                 return reject(err.message)
@@ -46,11 +47,10 @@ exports.deleteAttr = (attrId) => {
     })
 }
 
-exports.updateTag = (tag) => {
+exports.updateTag = (tag_id, tag_name) => {
     return new Promise((resolve, reject) => {
-        const { tag_id : tagId, tag_name : tagName } = tag
         const sqlstr = 'UPDATE tags SET tag_name = ? WHERE tag_id = ?'
-        db.query(sqlstr, [tagName, tagId], (err, result) => {
+        db.query(sqlstr, [tag_name, tag_id], (err, result) => {
             if (err) {
                 return reject(err.message)
             }
@@ -63,11 +63,10 @@ exports.updateTag = (tag) => {
     })
 }
 
-exports.addTag = (attrId, tag) => {
+exports.addTag = (tag_id, attrId, tag_name) => {
     return new Promise((resolve, reject) => {
-        const { tag_name : tagName } = tag
         const sqlstr = 'INSERT INTO tags VALUES ( ?, ?, ?)'
-        db.query(sqlstr, [null, attrId, tagName], (err, result) => {
+        db.query(sqlstr, [tag_id, attrId, tag_name], (err, result) => {
             if (err) {
                 return reject(err.message)
             }

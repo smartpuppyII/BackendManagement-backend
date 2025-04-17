@@ -59,8 +59,10 @@ exports.getUserRoutes = (roleName) => {
 // 新增用户 必要字段只有名字和密码
 exports.addUser = (userInfo) => {
     return new Promise((resolve, reject) => {
+        // 使用解构排除 check 字段
+        const { check, ...safeUserInfo } = userInfo
         const sqlstr = 'INSERT INTO users SET ?'
-        const insertData = { ...userInfo, id: null}
+        const insertData = { ...safeUserInfo, id: null}
         db.query(sqlstr, insertData, (err, result) => {
             if (err){
                 reject(err.message)
